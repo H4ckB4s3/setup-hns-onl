@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SETUP.HNS.ONL — Nginx + HTML website in minutes | VPS Setup</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Deploy a DANE‑secured HTML website or redirect on your VPS in minutes. One‑line install scripts for Nginx + static site or redirect. Perfect for HNS domains.">
+  <meta name="keywords" content="Nginx setup, HTML website VPS, Handshake hosting, DANE secured, redirect setup, setup.hns.onl, HNS domain, VPS install script">
+  <meta name="author" content="SETUP.HNS.ONL">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://setup.hns.onl">
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="SETUP.HNS.ONL — Setup a Nginx server + HTML website in minutes">
+  <meta property="og:description" content="One‑line install scripts for Nginx, static HTML site or redirect. DANE ready for Handshake domains.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://setup.hns.onl">
+  <meta property="og:image" content="https://setup.hns.onl/og-setup.png">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SETUP.HNS.ONL — VPS Nginx installer">
+  <meta name="twitter:description" content="Two quick scripts: HTML website or redirect. Works on Ubuntu/Debian VPS.">
+  
+  <style>
+    /* ---------- @import MUST BE AT TOP ---------- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+    
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0c12;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: #eef2ff;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* custom smooth reveal */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* header / nav */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #c0e0ff, #8bb4e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: #b9c7db;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: white;
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem 3rem;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #ffffff, #aac9f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      color: #a3b6d4;
+      max-width: 650px;
+      margin: 0 auto 1rem;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: #8ba3cc;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+    }
+
+    /* --- QUICK INSTALL SECTION (MAIN) with two commands stacked --- */
+    .quick-install-section {
+      max-width: 900px;
+      margin: 1rem auto 4rem auto;
+      background: transparent;
+      padding: 0 0 2rem 0;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(44, 95, 138, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #8bb4e6;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(100, 148, 196, 0.3);
+    }
+    .code-block-container {
+      margin-bottom: 1.5rem;
+    }
+    .code-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0e111b;
+      border-radius: 0.75rem 0.75rem 0 0;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid #262e40;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: #8aa3c9;
+    }
+    .copy-code-btn {
+      background: #1f2a3c;
+      border: none;
+      color: #bdd4ff;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .copy-code-btn:hover {
+      background: #2f405b;
+      color: white;
+      transform: translateY(-1px);
+    }
+    .github-code {
+      background: #0a0c14;
+      border-radius: 0 0 0.75rem 0.75rem;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border: 1px solid #262e40;
+      border-top: none;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .github-code:hover {
+      background: #0e1220;
+      border-color: #3f5577;
+    }
+    .github-code code {
+      background: transparent;
+      font-family: inherit;
+      color: #e2e9ff;
+      display: block;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .code-prompt {
+      color: #7aa2f7;
+      user-select: none;
+      margin-right: 0.5rem;
+    }
+    .click-to-copy-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.65rem;
+      color: #5f7a9e;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .github-code:hover .click-to-copy-hint {
+      opacity: 1;
+    }
+    .info-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #7a93bb;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-top: 1px solid #1e2538;
+      padding-top: 1.2rem;
+    }
+    .info-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .command-separator {
+      text-align: center;
+      margin: 0.5rem 0;
+      color: #5f7cae;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* VPS platforms section (formerly browsers-section) - updated with VPS providers */
+    .vps-section {
+      background: rgba(10, 14, 24, 0.6);
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      margin: 2rem auto 4rem;
+      text-align: center;
+      border: 1px solid rgba(66, 86, 122, 0.4);
+      backdrop-filter: blur(4px);
+      max-width: 1200px;
+    }
+    .vps-section h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #eef5ff, #b4c8e8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .vps-sub {
+      color: #8ba0c2;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+    .vps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 2rem;
+    }
+    .vps-card {
+      background: rgba(20, 26, 40, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 1.75rem;
+      padding: 1.8rem 1rem;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(79, 109, 139, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 150px;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .vps-card:hover {
+      transform: translateY(-6px);
+      border-color: #4f8bc0;
+      background: rgba(30, 45, 70, 0.8);
+      box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+    .vps-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+    .vps-card:hover .vps-logo {
+      transform: scale(1.05);
+    }
+    .vps-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #c2d4f0;
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+
+    /* additional VPS / DNS info */
+    .feature-linux {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 1rem auto 3rem;
+    }
+    .linux-card {
+      background: rgba(14, 18, 28, 0.7);
+      border-radius: 1.5rem;
+      padding: 1.2rem 1.8rem;
+      border: 1px solid #2a334a;
+      text-align: center;
+      flex: 1;
+      min-width: 200px;
+    }
+    .linux-card i {
+      font-size: 1.8rem;
+      color: #6c9fd1;
+      margin-bottom: 0.5rem;
+    }
+    .linux-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .linux-card p {
+      font-size: 0.8rem;
+      color: #9bb1cf;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #19212e;
+      color: #6f86a3;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 2.4rem; }
+      .navbar { flex-direction: column; gap: 1rem; }
+      .vps-card { width: 120px; padding: 1.2rem 0.5rem; }
+      .vps-logo { width: 48px; height: 48px; }
+      .toast-message { white-space: nowrap; font-size: 0.7rem; }
+      .feature-linux { gap: 1rem; }
+      .linux-card { min-width: 160px; }
+    }
+
+    .toast-message {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f4b3c;
+      color: #d0f0e0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 2100;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+      font-family: monospace;
+    }
+
+    .script-modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.25s ease;
+    }
+    .script-modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .script-modal {
+      background: #11151f;
+      border-radius: 1.75rem;
+      max-width: 700px;
+      width: 90%;
+      border: 1px solid #2e4a6e;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      background: #0c1020;
+      border-bottom: 1px solid #253141;
+    }
+    .modal-header h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #eef5ff, #bdd6f5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .close-script-modal {
+      background: #1f2a3c;
+      border: none;
+      color: #b9cfef;
+      font-size: 1.2rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-script-modal:hover {
+      background: #3e5577;
+      color: white;
+    }
+    .modal-body {
+      padding: 1.8rem;
+    }
+    .script-description {
+      color: #a6bfe5;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #253141;
+    }
+    .script-code-wrapper {
+      background: #0a0c14;
+      border-radius: 1rem;
+      border: 1px solid #2a3b54;
+      overflow: hidden;
+    }
+    .script-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f1220;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid #262e40;
+      font-size: 0.75rem;
+      color: #8aa3c9;
+    }
+    .script-code-block {
+      background: #080b12;
+      padding: 1.2rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #e2e9ff;
+      cursor: pointer;
+    }
+    .script-code-block:hover {
+      background: #0c1020;
+    }
+    .copy-script-btn {
+      background: #2a496b;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      color: white;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s;
+    }
+    .copy-script-btn:hover {
+      background: #3e6490;
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">SETUP</div>
+  <div class="nav-links">
+    <a href="https://hns.onl">Home</a>
+    <a href="https://resolve.hns.onl" target="_blank">Resolve</a>
+    <a href="https://setup.hns.onl">Setup a website</a>
+  </div>
+</nav>
+
+<main>
+  <div class="hero fade-up" id="hero">
+    <h1>Setup Nginx server + HTML</h1>
+    <p>One‑line install scripts: static HTML site or redirect. DANE ready</p>
+  </div>
+
+  <!-- QUICK INSTALL SECTION with TWO commands: HTML website + Redirect -->
+  <div class="quick-install-section fade-up" id="resolve">
+    <div style="text-align: center;">
+      <div class="section-badge"><i class="fas fa-terminal"></i> Quick Nginx + HTML website · Ubuntu/Debian VPS</div>
+    </div>
+    
+    <!-- Command 1: HTML Website -->
+    <div class="code-block-container">
+      <div class="code-block-header">
+        <span><i class="fas fa-code"></i> Static HTML site installer</span>
+        <button class="copy-code-btn" data-copy-text="bash <(curl -s https://setup.hns.onl/html.sh)"><i class="far fa-copy"></i> Copy</button>
+      </div>
+      <div class="github-code" data-copy-text="bash <(curl -s https://setup.hns.onl/html.sh)">
+        <code><span class="code-prompt">$</span> bash &lt;(curl -s https://setup.hns.onl/html.sh)</code>
+        <div class="click-to-copy-hint">click to copy</div>
+      </div>
+    </div>
+
+    <div class="command-separator">⬇  OR  ⬇</div>
+
+    <!-- Command 2: Redirect Setup -->
+    <div class="code-block-container">
+      <div class="code-block-header">
+        <span><i class="fas fa-exchange-alt"></i> Quick Nginx + redirect setup</span>
+        <button class="copy-code-btn" data-copy-text="bash <(curl -s https://setup.hns.onl/redirect.sh)"><i class="far fa-copy"></i> Copy</button>
+      </div>
+      <div class="github-code" data-copy-text="bash <(curl -s https://setup.hns.onl/redirect.sh)">
+        <code><span class="code-prompt">$</span> bash &lt;(curl -s https://setup.hns.onl/redirect.sh)</code>
+        <div class="click-to-copy-hint">click to copy</div>
+      </div>
+    </div>
+
+    <div class="info-note">
+      <span><i class="fas fa-check-circle"></i> Works on Ubuntu 20.04+, Debian 11+ VPS</span>
+      <span><i class="fas fa-globe"></i> Nginx + firewall + DANE ready</span>
+      <span><i class="fas fa-shield-alt"></i> Automated setup for Handshake domains</span>
+    </div>
+  </div>
+
+  <!-- COMPATIBLE VPS PLATFORMS (formerly browsers section, now showing VPS providers) -->
+  <div class="vps-section fade-up" id="vps-providers">
+    <h3>Compatible VPS Platforms</h3>
+    <div class="vps-sub">One‑click deploy Ubuntu/Debian on any of these providers, then run our installer. Works flawlessly on all major clouds.</div>
+    <div class="vps-grid">
+      <!-- AWS -->
+      <a href="https://aws.amazon.com/ec2/" target="_blank" rel="noopener noreferrer" class="vps-card">
+        <img class="vps-logo" src="/img/aws.svg" alt="AWS EC2">
+        <span class="vps-name">AWS</span>
+      </a>
+      <!-- DigitalOcean -->
+      <a href="https://www.digitalocean.com/" target="_blank" rel="noopener noreferrer" class="vps-card">
+        <img class="vps-logo" src="/img/digitalocean.svg" alt="DigitalOcean">
+        <span class="vps-name">DigitalOcean</span>
+      </a>
+      <!-- Hetzner -->
+      <a href="https://www.hetzner.com/cloud" target="_blank" rel="noopener noreferrer" class="vps-card">
+        <img class="vps-logo" src="/img/hetzner.svg" alt="Hetzner Cloud">
+        <span class="vps-name">Hetzner</span>
+      </a>
+      <!-- Hostinger -->
+      <a href="https://www.hostinger.com/vps-hosting" target="_blank" rel="noopener noreferrer" class="vps-card">
+        <img class="vps-logo" src="/img/hostinger.svg" alt="Hostinger VPS">
+        <span class="vps-name">Hostinger</span>
+      </a>
+      <!-- Linode (now Akamai) -->
+      <a href="https://www.linode.com/" target="_blank" rel="noopener noreferrer" class="vps-card">
+        <img class="vps-logo" src="/img/linode.svg" alt="Linode">
+        <span class="vps-name">Linode</span>
+      </a>
+    </div>
+    <div style="margin-top: 2rem; font-size: 0.85rem; color: #8aa2c5;"><i class="fas fa-cloud-upload-alt"></i> After setting up your VPS (Ubuntu 20.04+/Debian 11+), run the script above, then configure DNS A/AAAA/TLSA records. Your Handshake domain will be live with DANE security.</div>
+  </div>
+
+  <!-- Additional VPS / DNS info block -->
+  <div class="feature-linux fade-up">
+    <div class="linux-card">
+      <i class="fas fa-server"></i>
+      <h4>A / AAAA Records</h4>
+      <p>Point your Handshake domain to your VPS IPv4/IPv6 address</p>
+    </div>
+    <div class="linux-card">
+      <i class="fas fa-certificate"></i>
+      <h4>TLSA / DANE</h4>
+      <p>Automatic certificate generation & optional DANE records</p>
+    </div>
+    <div class="linux-card">
+      <i class="fas fa-rocket"></i>
+      <h4>One‑line scripts</h4>
+      <p>HTML or redirect, DANE secure, Nginx preconfigured</p>
+    </div>
+  </div>
+
+  <footer>
+    <i class="fas fa-globe"></i> SETUP.HNS.ONL — Deploy Handshake sites instantly | <a href="https://resolve.hns.onl" style="color:#8bb4e6;" target="_blank">resolve.hns.onl</a>
+  </footer>
+</main>
+
+<!-- SCRIPT MODAL (shared for both commands, shows currently selected script) -->
+<div id="scriptModal" class="script-modal-overlay">
+  <div class="script-modal">
+    <div class="modal-header">
+      <h3 id="modalScriptTitle">Install Command</h3>
+      <button class="close-script-modal" id="closeScriptModalBtn"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="script-description" id="modalScriptDesc">Run this on your VPS to enable Nginx + HTML website or redirect.</div>
+      <div class="script-code-wrapper">
+        <div class="script-code-header">
+          <span><i class="fas fa-code"></i> copy & paste into terminal</span>
+          <button class="copy-script-btn" id="modalCopyBtn"><i class="far fa-copy"></i> Copy script</button>
+        </div>
+        <div class="script-code-block" id="modalScriptCode">bash &lt;(curl -s https://setup.hns.onl/html.sh)</div>
+      </div>
+      <div style="margin-top: 1rem; font-size: 0.7rem; color: #6f8ab3; text-align: center;"><i class="fas fa-terminal"></i> Click on the script to copy it instantly</div>
+    </div>
+  </div>
+</div>
+
+<div id="copyToast" class="toast-message">✓ Copied to clipboard!</div>
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script>
+  const HTML_SCRIPT = "bash <(curl -s https://setup.hns.onl/html.sh)";
+  const REDIRECT_SCRIPT = "bash <(curl -s https://setup.hns.onl/redirect.sh)";
+  let currentModalScript = HTML_SCRIPT;
+
+  function showToast(message) {
+    const toast = document.getElementById('copyToast');
+    toast.textContent = message || '✓ Copied to clipboard!';
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+  }
+
+  function copyToClipboard(text, successMsg = '✓ Copied to clipboard!') {
+    if (!text) return false;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(successMsg);
+      return true;
+    }).catch(err => {
+      console.error('Copy failed:', err);
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      if (success) showToast(successMsg);
+      else alert('Unable to copy. Select manually.');
+    });
+    return true;
+  }
+
+  function setupQuickInstallCopy() {
+    const copyBtns = document.querySelectorAll('.copy-code-btn');
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const textToCopy = btn.getAttribute('data-copy-text');
+        if (textToCopy) copyToClipboard(textToCopy);
+      });
+    });
+    const codeBlocks = document.querySelectorAll('.github-code');
+    codeBlocks.forEach(block => {
+      block.addEventListener('click', (e) => {
+        const textToCopy = block.getAttribute('data-copy-text');
+        if (textToCopy) copyToClipboard(textToCopy);
+      });
+    });
+  }
+
+  function initModal() {
+    const modalOverlay = document.getElementById('scriptModal');
+    const closeBtn = document.getElementById('closeScriptModalBtn');
+    const modalCopyBtn = document.getElementById('modalCopyBtn');
+    const scriptCodeBlock = document.getElementById('modalScriptCode');
+    const modalTitle = document.getElementById('modalScriptTitle');
+    const modalDesc = document.getElementById('modalScriptDesc');
+
+    function updateModalContent(scriptType) {
+      if (scriptType === 'html') {
+        currentModalScript = HTML_SCRIPT;
+        if (modalTitle) modalTitle.innerText = 'HTML Website Installer';
+        if (modalDesc) modalDesc.innerHTML = 'Deploy a full Nginx web server with a responsive HTML landing page.';
+        if (scriptCodeBlock) scriptCodeBlock.innerText = HTML_SCRIPT;
+      } else {
+        currentModalScript = REDIRECT_SCRIPT;
+        if (modalTitle) modalTitle.innerText = 'Redirect Installer';
+        if (modalDesc) modalDesc.innerHTML = 'Configure Nginx to redirect all traffic to any destination URL.';
+        if (scriptCodeBlock) scriptCodeBlock.innerText = REDIRECT_SCRIPT;
+      }
+    }
+
+    // Attach click handlers to each code block to open modal with appropriate script
+    const htmlCodeBlock = document.querySelector('.github-code[data-copy-text="bash <(curl -s https://setup.hns.onl/html.sh)"]');
+    const redirectCodeBlock = document.querySelector('.github-code[data-copy-text="bash <(curl -s https://setup.hns.onl/redirect.sh)"]');
+    
+    if (htmlCodeBlock) {
+      htmlCodeBlock.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateModalContent('html');
+        modalOverlay.classList.add('active');
+      });
+    }
+    if (redirectCodeBlock) {
+      redirectCodeBlock.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateModalContent('redirect');
+        modalOverlay.classList.add('active');
+      });
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+    }
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+    if (modalCopyBtn) {
+      modalCopyBtn.addEventListener('click', () => copyToClipboard(currentModalScript, '✓ Script copied!'));
+    }
+    if (scriptCodeBlock) {
+      scriptCodeBlock.addEventListener('click', () => copyToClipboard(currentModalScript, '✓ Script copied!'));
+    }
+  }
+
+  function observeFadeElements() {
+    const fadeEls = document.querySelectorAll('.fade-up:not(.visible)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => observer.observe(el));
+  }
+
+  function initSmoothScroll() {
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const hash = this.getAttribute('href');
+        if (hash && hash !== '#' && hash.startsWith('#')) {
+          const targetId = hash.substring(1);
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            e.preventDefault();
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  }
+
+  observeFadeElements();
+  setupQuickInstallCopy();
+  initModal();
+  initSmoothScroll();
+</script>
+</body>
+</html>

@@ -39,7 +39,11 @@ sudo tee index.html > /dev/null <<EOF
   
   <!-- Minimal font: only Inter for clean look -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  
+    <style>  a[href="https://www.hns.to"],
+  div[style*="background-color: rgb(241, 0, 19);"],
+  div[style="margin: 0; padding: 0; height: 75px"] {
+    display: none !important;
+  }</style>
   <style>
     /* ----- RESET & GLOBAL ----- */
     * {

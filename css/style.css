@@ -1,0 +1,472 @@
+
+    /* ---------- @import MUST BE AT TOP ---------- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+    
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0c12;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: #eef2ff;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* custom smooth reveal */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* header / nav */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #c0e0ff, #8bb4e0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      color: #b9c7db;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: white;
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem 3rem;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #ffffff, #aac9f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      color: #a3b6d4;
+      max-width: 650px;
+      margin: 0 auto 1rem;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      color: #8ba3cc;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+    }
+
+    /* --- QUICK INSTALL SECTION (MAIN) with two commands stacked --- */
+    .quick-install-section {
+      max-width: 900px;
+      margin: 1rem auto 4rem auto;
+      background: transparent;
+      padding: 0 0 2rem 0;
+    }
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(44, 95, 138, 0.2);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #8bb4e6;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(100, 148, 196, 0.3);
+    }
+    .code-block-container {
+      margin-bottom: 1.5rem;
+    }
+    .code-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0e111b;
+      border-radius: 0.75rem 0.75rem 0 0;
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid #262e40;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+      color: #8aa3c9;
+    }
+    .copy-code-btn {
+      background: #1f2a3c;
+      border: none;
+      color: #bdd4ff;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .copy-code-btn:hover {
+      background: #2f405b;
+      color: white;
+      transform: translateY(-1px);
+    }
+    .github-code {
+      background: #0a0c14;
+      border-radius: 0 0 0.75rem 0.75rem;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      border: 1px solid #262e40;
+      border-top: none;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .github-code:hover {
+      background: #0e1220;
+      border-color: #3f5577;
+    }
+    .github-code code {
+      background: transparent;
+      font-family: inherit;
+      color: #e2e9ff;
+      display: block;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .code-prompt {
+      color: #7aa2f7;
+      user-select: none;
+      margin-right: 0.5rem;
+    }
+    .click-to-copy-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 0.65rem;
+      color: #5f7a9e;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .github-code:hover .click-to-copy-hint {
+      opacity: 1;
+    }
+    .info-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #7a93bb;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-top: 1px solid #1e2538;
+      padding-top: 1.2rem;
+    }
+    .info-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .command-separator {
+      text-align: center;
+      margin: 0.5rem 0;
+      color: #5f7cae;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* VPS platforms section (formerly browsers-section) - updated with VPS providers */
+    .vps-section {
+      background: rgba(10, 14, 24, 0.6);
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      margin: 2rem auto 4rem;
+      text-align: center;
+      border: 1px solid rgba(66, 86, 122, 0.4);
+      backdrop-filter: blur(4px);
+      max-width: 1200px;
+    }
+    .vps-section h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #eef5ff, #b4c8e8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .vps-sub {
+      color: #8ba0c2;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+    .vps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 2rem;
+    }
+    .vps-card {
+      background: rgba(20, 26, 40, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 1.75rem;
+      padding: 1.8rem 1rem;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(79, 109, 139, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 150px;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .vps-card:hover {
+      transform: translateY(-6px);
+      border-color: #4f8bc0;
+      background: rgba(30, 45, 70, 0.8);
+      box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+    .vps-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      transition: transform 0.2s;
+    }
+    .vps-card:hover .vps-logo {
+      transform: scale(1.05);
+    }
+    .vps-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #c2d4f0;
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+
+    /* additional VPS / DNS info */
+    .feature-linux {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 1rem auto 3rem;
+    }
+    .linux-card {
+      background: rgba(14, 18, 28, 0.7);
+      border-radius: 1.5rem;
+      padding: 1.2rem 1.8rem;
+      border: 1px solid #2a334a;
+      text-align: center;
+      flex: 1;
+      min-width: 200px;
+    }
+    .linux-card i {
+      font-size: 1.8rem;
+      color: #6c9fd1;
+      margin-bottom: 0.5rem;
+    }
+    .linux-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .linux-card p {
+      font-size: 0.8rem;
+      color: #9bb1cf;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #19212e;
+      color: #6f86a3;
+      font-size: 0.8rem;
+    }
+    @media (max-width: 720px) {
+      .hero h1 { font-size: 2.4rem; }
+      .navbar { flex-direction: column; gap: 1rem; }
+      .vps-card { width: 120px; padding: 1.2rem 0.5rem; }
+      .vps-logo { width: 48px; height: 48px; }
+      .toast-message { white-space: nowrap; font-size: 0.7rem; }
+      .feature-linux { gap: 1rem; }
+      .linux-card { min-width: 160px; }
+    }
+
+    .toast-message {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f4b3c;
+      color: #d0f0e0;
+      padding: 0.6rem 1.2rem;
+      border-radius: 3rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 2100;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      white-space: nowrap;
+      font-family: monospace;
+    }
+
+    .script-modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.25s ease;
+    }
+    .script-modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .script-modal {
+      background: #11151f;
+      border-radius: 1.75rem;
+      max-width: 700px;
+      width: 90%;
+      border: 1px solid #2e4a6e;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 1.5rem;
+      background: #0c1020;
+      border-bottom: 1px solid #253141;
+    }
+    .modal-header h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #eef5ff, #bdd6f5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .close-script-modal {
+      background: #1f2a3c;
+      border: none;
+      color: #b9cfef;
+      font-size: 1.2rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .close-script-modal:hover {
+      background: #3e5577;
+      color: white;
+    }
+    .modal-body {
+      padding: 1.8rem;
+    }
+    .script-description {
+      color: #a6bfe5;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #253141;
+    }
+    .script-code-wrapper {
+      background: #0a0c14;
+      border-radius: 1rem;
+      border: 1px solid #2a3b54;
+      overflow: hidden;
+    }
+    .script-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f1220;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid #262e40;
+      font-size: 0.75rem;
+      color: #8aa3c9;
+    }
+    .script-code-block {
+      background: #080b12;
+      padding: 1.2rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #e2e9ff;
+      cursor: pointer;
+    }
+    .script-code-block:hover {
+      background: #0c1020;
+    }
+    .copy-script-btn {
+      background: #2a496b;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      color: white;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.2s;
+    }
+    .copy-script-btn:hover {
+      background: #3e6490;
+      transform: scale(0.98);
+    }

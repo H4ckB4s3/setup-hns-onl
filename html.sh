@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # install.sh
-# Automated nginx HTML setup with SSL for HNS domains
-# Usage: bash <(curl -s https://hns.onl/install/install.sh)
+# Automated nginx HTML setup with SSL for HNS TLD
 
 echo "=== nginx Domain Setup ==="
 
